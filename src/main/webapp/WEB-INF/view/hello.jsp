@@ -18,7 +18,7 @@
         <body>
             hello from jsp
             <h1>
-                ${eric}
+                ${hoidanit}
             </h1>
             <button class="btn btn-success">Submit</button>
         </body>
