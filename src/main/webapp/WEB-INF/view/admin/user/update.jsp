@@ -6,7 +6,7 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Document</title>
+                <title>Update user</title>
                 <!-- Latest compiled and minified CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
                 <!-- Latest compiled JavaScript -->
@@ -19,18 +19,18 @@
                 <div class="container mt-5">
                     <div class="row">
                         <div class="col-md-6 col-12 mx-auto">
-                            <h1>Create a user</h1>
+                            <h1>Update user</h1>
                             <hr />
-                            <form:form method="post" action="/admin/user/create" modelAttribute="newUser">
+                            <form:form method="post" action="/admin/user/update" modelAttribute="user">
+                                <div class="mb-3">
+                                    <label style="display: none;" for="exampleInputId" class="form-label">Id</label>
+                                    <form:input style="display: none;" type="text" class="form-control"
+                                        id="exampleInputId" path="id" />
+                                </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Email</label>
                                     <form:input type="email" class="form-control" id="exampleInputEmail1"
-                                        path="email" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                                    <form:input type="password" class="form-control" id="exampleInputPassword1"
-                                        path="password" />
+                                        disabled="true" path="email" />
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPhoneNumber" class="form-label">Phone number</label>
@@ -47,7 +47,7 @@
                                     <form:input type="text" class="form-control" id="exampleInputAddress"
                                         path="address" />
                                 </div>
-                                <button type="submit" class="btn btn-primary">Create</button>
+                                <button type="submit" class="btn btn-warning">Update</button>
                             </form:form>
                         </div>
                     </div>
