@@ -23,25 +23,30 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <div class="container-fluid px-4">
-                            <h1 class="mt-4">Delete user</h1>
+                            <h1 class="mt-4">User detail</h1>
                             <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active"><a href="/admin">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Users</li>
                             </ol>
                             <div class="mt-5">
                                 <div class="row">
-                                    <div class="col-12 mx-auto">
-                                        <h1>Delete user with id = ${user.id}</h1>
-                                        <hr />
-                                        <div class="alert alert-danger" role="alert">
-                                            Are you sure to delete this user!
+                                    <div class="d-flex justify-content-between">
+                                        <h2>User detail with id = ${user.id}</h2>
+                                    </div>
+                                    <hr />
+                                    <div class="card" style="width: 60%;">
+                                        <div class="card-header">
+                                            User Information
                                         </div>
-                                        <form:form action="/admin/user/delete" method="post" modelAttribute="user">
-                                            <form:input type="hidden" path="id"></form:input>
-                                            <input type="submit" class="btn btn-danger" value="Delete" />
-                                        </form:form>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Id: ${user.id}</li>
+                                            <li class="list-group-item">Email: ${user.email}</li>
+                                            <li class="list-group-item">Full Name: ${user.fullName}</li>
+                                            <li class="list-group-item">Address: ${user.address}</li>
+                                        </ul>
                                     </div>
                                 </div>
+                                <a href="/admin/user" class="btn btn-primary mt-3">Back</a>
                             </div>
                         </div>
                     </main>

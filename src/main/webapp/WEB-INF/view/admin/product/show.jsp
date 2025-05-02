@@ -23,26 +23,12 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <div class="container-fluid px-4">
-                            <h1 class="mt-4">Delete user</h1>
+                            <h1 class="mt-4">Manage products</h1>
                             <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active"><a href="/admin">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Users</li>
+                                <li class="breadcrumb-item active">Products</li>
                             </ol>
-                            <div class="mt-5">
-                                <div class="row">
-                                    <div class="col-12 mx-auto">
-                                        <h1>Delete user with id = ${user.id}</h1>
-                                        <hr />
-                                        <div class="alert alert-danger" role="alert">
-                                            Are you sure to delete this user!
-                                        </div>
-                                        <form:form action="/admin/user/delete" method="post" modelAttribute="user">
-                                            <form:input type="hidden" path="id"></form:input>
-                                            <input type="submit" class="btn btn-danger" value="Delete" />
-                                        </form:form>
-                                    </div>
-                                </div>
-                            </div>
+                            <div>Table products</div>
                         </div>
                     </main>
                     <jsp:include page="../layout/footer.jsp" />
