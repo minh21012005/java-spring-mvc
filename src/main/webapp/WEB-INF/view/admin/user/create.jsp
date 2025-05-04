@@ -13,6 +13,17 @@
                 <title>Dashboard - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(() => {
+                        const avatarFile = $("#avatarFile");
+                        avatarFile.change(function (e) {
+                            const imgURL = URL.createObjectURL(e.target.files[0]);
+                            $("#avatarPreview").attr("src", imgURL);
+                            $("#avatarPreview").css({ "display": "block" });
+                        });
+                    });
+                </script>
             </head>
 
             <body class="sb-nav-fixed">
@@ -35,7 +46,7 @@
                                             <h1>Create a user</h1>
                                             <hr />
                                             <form:form method="post" action="/admin/user/create"
-                                                modelAttribute="newUser">
+                                                modelAttribute="newUser" enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="exampleInputEmail1" class="form-label">Email</label>
                                                     <form:input type="email" class="form-control"
@@ -63,7 +74,28 @@
                                                     <form:input type="text" class="form-control"
                                                         id="exampleInputAddress" path="address" />
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Create</button>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12">
+                                                        <label for="select" class="form-lable mb-2">Role</label>
+                                                        <form:select class="form-select"
+                                                            aria-label="Default select example" id="select"
+                                                            path="role.name">
+                                                            <form:option value="ADMIN">ADMIN</form:option>
+                                                            <form:option value="USER">USER</form:option>
+                                                        </form:select>
+                                                    </div>
+                                                    <div class="col-md-6 col-12">
+                                                        <label for="avatarFile" class="form-label">Avatar:</label>
+                                                        <input class="form-control" type="file" id="avatarFile"
+                                                            name="file" accept=".png, .jpg, .jpeg" />
+                                                    </div>
+                                                    <div class="col-12 mt-3">
+                                                        <img style="max-height: 250px; display: none;"
+                                                            alt="avatar preview" id="avatarPreview" />
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3"><button type="submit"
+                                                        class="btn btn-primary">Create</button></div>
                                             </form:form>
                                         </div>
                                     </div>
