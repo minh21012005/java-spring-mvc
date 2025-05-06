@@ -35,7 +35,7 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manage products</h1>
+                                <h1 class="mt-4">Manage users</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item active"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Users</li>
@@ -48,26 +48,41 @@
                                             <form:form method="post" action="/admin/user/create"
                                                 modelAttribute="newUser" enctype="multipart/form-data">
                                                 <div class="mb-3">
+                                                    <c:set var="errorEmail">
+                                                        <form:errors path="email" cssClass="invalid-feedback" />
+                                                    </c:set>
                                                     <label for="exampleInputEmail1" class="form-label">Email</label>
-                                                    <form:input type="email" class="form-control"
+                                                    <form:input type="email"
+                                                        class="form-control ${not empty errorEmail?'is-invalid':''}"
                                                         id="exampleInputEmail1" path="email" />
+                                                    ${errorEmail}
                                                 </div>
                                                 <div class="mb-3">
+                                                    <c:set var="errorPassword">
+                                                        <form:errors path="password" cssClass="invalid-feedback" />
+                                                    </c:set>
                                                     <label for="exampleInputPassword1"
                                                         class="form-label">Password</label>
-                                                    <form:input type="password" class="form-control"
+                                                    <form:input type="password"
+                                                        class="form-control ${not empty errorPassword?'is-invalid':''}"
                                                         id="exampleInputPassword1" path="password" />
+                                                    ${errorPassword}
+                                                </div>
+                                                <div class="mb-3">
+                                                    <c:set var="errorFullName">
+                                                        <form:errors path="fullName" cssClass="invalid-feedback" />
+                                                    </c:set>
+                                                    <label for="exampleInputName" class="form-label">Full name</label>
+                                                    <form:input type="text"
+                                                        class="form-control ${not empty errorFullName?'is-invalid':''}"
+                                                        id="exampleInputName" path="fullName" />
+                                                    ${errorFullName}
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="exampleInputPhoneNumber" class="form-label">Phone
                                                         number</label>
                                                     <form:input type="text" class="form-control"
                                                         id="exampleInputPhoneNumber" path="phone" />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleInputName" class="form-label">Full name</label>
-                                                    <form:input type="text" class="form-control" id="exampleInputName"
-                                                        path="fullName" />
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="exampleInputAddress" class="form-label">Address</label>
