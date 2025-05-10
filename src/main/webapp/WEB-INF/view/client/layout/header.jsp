@@ -15,8 +15,8 @@
                         <div class="collapse navbar-collapse bg-white d-flex justify-content-between mx-5"
                             id="navbarCollapse">
                             <div class="navbar-nav">
-                                <a href=" index.html" class="nav-item nav-link active">Home</a>
-                                <a href="shop.html" class="nav-item nav-link">Product</a>
+                                <a href="#" class="nav-item nav-link active">Home</a>
+                                <a href="#" class="nav-item nav-link">Product</a>
                             </div>
                             <div class="d-flex m-3 me-0">
                                 <c:if test="${not empty pageContext.request.userPrincipal}">
@@ -38,9 +38,9 @@
 
                                             <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
                                                 <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
-                                                    src="/images/product/1711078092373-asus-01.png" />
+                                                    src="/images/avatar/${sessionScope.avatar}" />
                                                 <div class="text-center my-3">
-                                                    <c:out value="${pageContext.request.userPrincipal.name}" />
+                                                    <c:out value="${sessionScope.fullName}" />
                                                 </div>
                                             </li>
                                             <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
