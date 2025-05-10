@@ -2,12 +2,15 @@ package vn.hoidanit.laptopshop.domain.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import vn.hoidanit.laptopshop.service.validator.RegisterChecked;
 import vn.hoidanit.laptopshop.service.validator.StrongPassword;
 
 @RegisterChecked
 public class RegisterDTO {
+    @Size(min = 3, message = "First Name phải có ít nhất 3 kí tự!")
     private String firstName;
+
     private String lastName;
 
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
