@@ -15,15 +15,22 @@ import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.service.CartDetailService;
+import vn.hoidanit.laptopshop.service.CartService;
 import vn.hoidanit.laptopshop.service.ProductService;
 
 @Controller
 public class ItemController {
 
+    private final CartService cartService;
+    private final CartDetailService cartDetailService;
+
     private final ProductService productService;
 
-    public ItemController(ProductService productService) {
+    public ItemController(ProductService productService, CartService cartService, CartDetailService cartDetailService) {
         this.productService = productService;
+        this.cartService = cartService;
+        this.cartDetailService = cartDetailService;
     }
 
     @GetMapping("/product/{id}")
@@ -58,5 +65,23 @@ public class ItemController {
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
         return "client/cart/show";
+    }
+
+    @PostMapping("/delete-cart-product/{id}")
+    public String handleDeleteCartProduct(@PathVariable long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        CartDetail cartDetail = this.cartDetailService.getCartDetailById(id);
+        Cart cart = cartDetail.getCart();
+        this.cartDetailService.deleteCartDetailById(id);
+        int sum = cart.getSum();
+        if (sum > 1) {
+            cart.setSum(sum - 1);
+            this.cartService.saveCart(cart);
+            session.setAttribute("sum", sum - 1);
+        } else {
+            this.cartService.deleteCart(cart);
+            session.setAttribute("sum", 0);
+        }
+        return "redirect:/cart";
     }
 }
