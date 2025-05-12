@@ -46,7 +46,7 @@
 
             <!-- Cart Page Start -->
             <div class="container-fluid py-5">
-                <form method="post" action="/checkout">
+                <form method="post" action="/place-order">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     <div class="container py-5">
                         <div class="table-responsive">
@@ -58,12 +58,10 @@
                                         <th scope="col">Price</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Total</th>
-                                        <th scope="col">Handle</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach var="c" items="${cartDetails}">
-                                        <input type="hidden" name="cartId" value="${c.id}" />
                                         <tr>
                                             <th scope="row">
                                                 <div class="d-flex align-items-center">
@@ -84,22 +82,10 @@
                                             </td>
                                             <td>
                                                 <div class="input-group quantity mt-4" style="width: 100px;">
-                                                    <div class="input-group-btn">
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                                            <i class="fa fa-minus"></i>
-                                                        </button>
-                                                    </div>
-                                                    <input type="text" name="quantity"
+                                                    <input type="text" readonly
                                                         class="form-control form-control-sm text-center border-0"
                                                         data-cart-detail-id="${c.id}"
                                                         data-cart-detail-price="${c.price}" value="${c.quantity}">
-                                                    <div class="input-group-btn">
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                    </div>
                                                 </div>
                                             </td>
                                             <td>
@@ -107,30 +93,46 @@
                                                     c.quantity} $
                                                 </p>
                                             </td>
-                                            <td>
-                                                <a href="/delete-cart-product/${c.id}"
-                                                    class="btn btn-md rounded-circle bg-light border mt-4">
-                                                    <i class="fa fa-times text-danger"></i>
-                                                </a>
-                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
                         <div class="mt-5 row g-4 justify-content-start">
-                            <div class="col-12 col-md-8">
+                            <div class="col-12 col-md-6">
+                                <div class="rounded">
+                                    <div class="p-4">
+                                        <h1 class="display-6 mb-4">Recipient<span class="fw-normal"> information</span>
+                                        </h1>
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" name="receiverName"
+                                            required />
+                                        <label for="address" class="form-label mt-2">Address</label>
+                                        <input type="text" class="form-control" id="address" name="receiverAddress"
+                                            required />
+                                        <label for="phone" class="form-label mt-2">Phone</label>
+                                        <input type="text" class="form-control" id="phone" name="receiverPhone"
+                                            required />
+                                    </div>
+                                    <a href="/cart"
+                                        class="border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">
+                                        Back to cart</a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
                                 <div class="bg-light rounded">
                                     <div class="p-4">
                                         <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
                                         <div class="d-flex justify-content-between mb-4">
-                                            <h5 class="mb-0 me-4">Subtotal:</h5>
-                                            <p data-cart-total-price="${totalPrice}" class="mb-0">$${totalPrice}</p>
+                                            <h5 class="mb-0 me-4">Shipping:</h5>
+                                            <p data-cart-total-price="${totalPrice}" class="mb-0">$0</p>
                                         </div>
                                         <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0 me-4">Shipping</h5>
+                                            <h5 class="mb-0 me-4">
+                                                Form of transport</h5>
                                             <div class="">
-                                                <p class="mb-0">$0</p>
+                                                <p class="mb-0">
+                                                    Cash on Delivery(COD)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -138,11 +140,9 @@
                                         <h5 class="mb-0 ps-4 me-4">Total</h5>
                                         <p data-cart-total-price="${totalPrice}" class="mb-0 pe-4">$${totalPrice}</p>
                                     </div>
-                                    <c:if test="${size > 0}">
-                                        <button
-                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-                                            type="submit">Proceed Checkout</button>
-                                    </c:if>
+                                    <button
+                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+                                        type="submit">Place Order</button>
                                 </div>
                             </div>
                         </div>

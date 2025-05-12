@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -64,10 +65,11 @@ public class ItemController {
         }
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("size", cartDetails.size());
         return "client/cart/show";
     }
 
-    @PostMapping("/delete-cart-product/{id}")
+    @GetMapping("/delete-cart-product/{id}")
     public String handleDeleteCartProduct(@PathVariable long id, HttpServletRequest request) {
         HttpSession session = request.getSession();
         CartDetail cartDetail = this.cartDetailService.getCartDetailById(id);
@@ -83,5 +85,40 @@ public class ItemController {
             session.setAttribute("sum", 0);
         }
         return "redirect:/cart";
+    }
+
+    @PostMapping("/checkout")
+    public String getCheckOutPage(Model model, HttpServletRequest request, @RequestParam List<Long> cartId,
+            @RequestParam List<Integer> quantity) {
+        for (int i = 0; i < cartId.size(); i++) {
+            Long id = cartId.get(i);
+            Integer qty = quantity.get(i);
+            CartDetail cartDetail = this.cartDetailService.getCartDetailById(id);
+            cartDetail.setQuantity(qty);
+            this.cartDetailService.savCartDetail(cartDetail);
+        }
+
+        User user = new User();
+        HttpSession session = request.getSession(false);
+        long userId = (long) session.getAttribute("id");
+        user.setId(userId);
+
+        Cart cart = this.productService.fetchByUser(user);
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
+        double totalPrice = 0;
+        for (CartDetail cartDetail : cartDetails) {
+            totalPrice += cartDetail.getPrice() * cartDetail.getQuantity();
+        }
+        model.addAttribute("cartDetails", cartDetails);
+        model.addAttribute("totalPrice", totalPrice);
+        return "client/cart/checkout";
+    }
+
+    @PostMapping("/place-order")
+    public String handleConfirmCheckOut(@RequestParam("receiverName") String receiverName,
+            @RequestParam("receiverAddress") String receiverAddress,
+            @RequestParam("receiverPhone") String receiverPhone) {
+
+        return "redirect:/";
     }
 }

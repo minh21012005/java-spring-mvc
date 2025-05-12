@@ -20,4 +20,8 @@ public class CartDetailService {
     public CartDetail deleteCartDetailById(long id) {
         return this.cartDetailRepository.deleteById(id);
     }
+
+    public CartDetail savCartDetail(CartDetail cartDetail) {
+        return this.cartDetailRepository.save(cartDetail);
+    }
 }
