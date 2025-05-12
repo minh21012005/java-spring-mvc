@@ -88,6 +88,7 @@
                                                 </div>
                                                 <input type="text"
                                                     class="form-control form-control-sm text-center border-0"
+                                                    data-cart-detail-id="${c.id}" data-cart-detail-price="${c.price}"
                                                     value="${c.quantity}">
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -97,7 +98,8 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-4">${c.price * c.quantity} $</p>
+                                            <p data-cart-detail-id="${c.id}" class="mb-0 mt-4">${c.price * c.quantity} $
+                                            </p>
                                         </td>
                                         <td>
                                             <button class="btn btn-md rounded-circle bg-light border mt-4">
@@ -117,7 +119,7 @@
                                     <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
                                     <div class="d-flex justify-content-between mb-4">
                                         <h5 class="mb-0 me-4">Subtotal:</h5>
-                                        <p class="mb-0">$${totalPrice}</p>
+                                        <p data-cart-total-price="${totalPrice}" class="mb-0">$${totalPrice}</p>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <h5 class="mb-0 me-4">Shipping</h5>
@@ -129,7 +131,7 @@
                                 </div>
                                 <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                     <h5 class="mb-0 ps-4 me-4">Total</h5>
-                                    <p class="mb-0 pe-4">$${totalPrice}</p>
+                                    <p data-cart-total-price="${totalPrice}" class="mb-0 pe-4">$${totalPrice}</p>
                                 </div>
                                 <button
                                     class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
