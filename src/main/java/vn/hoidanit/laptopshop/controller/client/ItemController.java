@@ -115,9 +115,16 @@ public class ItemController {
     }
 
     @PostMapping("/place-order")
-    public String handleConfirmCheckOut(@RequestParam("receiverName") String receiverName,
+    public String handleConfirmCheckOut(HttpServletRequest request, @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverAddress") String receiverAddress,
             @RequestParam("receiverPhone") String receiverPhone) {
+        User user = new User();
+        HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        user.setId(id);
+
+        this.productService.handlePlaceOrder(user, session, receiverName,
+                receiverAddress, receiverPhone);
 
         return "redirect:/";
     }
