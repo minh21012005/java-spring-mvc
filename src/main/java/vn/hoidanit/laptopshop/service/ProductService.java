@@ -2,6 +2,8 @@ package vn.hoidanit.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +38,10 @@ public class ProductService {
         this.userService = userService;
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
+    }
+
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return this.productRepository.findAll(pageable);
     }
 
     public List<Product> getAllProducts() {
@@ -125,5 +131,37 @@ public class ProductService {
             session.setAttribute("sum", 0);
         }
 
+    }
+
+    public void handleAddProductsToCart(String email, long productId, long quantity, HttpSession session) {
+        User user = this.userService.getOneUserByEmail(email);
+        if (user != null) {
+            Cart cart = this.cartRepository.findByUser(user);
+            if (cart == null) {
+                Cart newCart = new Cart();
+                newCart.setUser(user);
+                newCart.setSum(0);
+
+                cart = this.cartRepository.save(newCart);
+            }
+            Product product = this.productRepository.findById(productId);
+            CartDetail oldCartDetail = this.cartDetailRepository.findByCartAndProduct(cart, product);
+            if (oldCartDetail == null) {
+                CartDetail cartDetail = new CartDetail();
+                cartDetail.setCart(cart);
+                cartDetail.setProduct(product);
+                cartDetail.setPrice(product.getPrice());
+                cartDetail.setQuantity(quantity);
+                this.cartDetailRepository.save(cartDetail);
+
+                int s = cart.getSum() + 1;
+                cart.setSum(s);
+                this.cartRepository.save(cart);
+                session.setAttribute("sum", s);
+            } else {
+                oldCartDetail.setQuantity(oldCartDetail.getQuantity() + quantity);
+                this.cartDetailRepository.save(oldCartDetail);
+            }
+        }
     }
 }

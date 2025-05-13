@@ -14,10 +14,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
+import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.CartDetailService;
 import vn.hoidanit.laptopshop.service.CartService;
+import vn.hoidanit.laptopshop.service.OrderService;
 import vn.hoidanit.laptopshop.service.ProductService;
 
 @Controller
@@ -25,13 +27,16 @@ public class ItemController {
 
     private final CartService cartService;
     private final CartDetailService cartDetailService;
+    private final OrderService orderService;
 
     private final ProductService productService;
 
-    public ItemController(ProductService productService, CartService cartService, CartDetailService cartDetailService) {
+    public ItemController(ProductService productService, CartService cartService, CartDetailService cartDetailService,
+            OrderService orderService) {
         this.productService = productService;
         this.cartService = cartService;
         this.cartDetailService = cartDetailService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/product/{id}")
@@ -127,5 +132,27 @@ public class ItemController {
                 receiverAddress, receiverPhone);
 
         return "client/homepage/thanks";
+    }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        User user = new User();
+        HttpSession session = request.getSession();
+        long id = (long) session.getAttribute("id");
+        user.setId(id);
+
+        List<Order> orders = this.orderService.fetchByUser(user);
+        model.addAttribute("orders", orders);
+        return "client/cart/order-history";
+    }
+
+    @PostMapping("/add-products-to-cart/{id}")
+    public String addProductsToCart(@PathVariable("id") long id, @RequestParam("quantity") long quantity,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        long productId = id;
+        String email = (String) request.getSession().getAttribute("email");
+        this.productService.handleAddProductsToCart(email, productId, quantity, session);
+        return "redirect:/";
     }
 }
