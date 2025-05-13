@@ -32,11 +32,19 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product")
-    public String getProduct(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
-        Pageable pageable = PageRequest.of(page - 1, 4);
+    public String getProduct(Model model, @RequestParam(name = "page", defaultValue = "1") String page_raw) {
+        int page = 1;
+        try {
+            page = Integer.parseInt(page_raw);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        Pageable pageable = PageRequest.of(page - 1, 5);
         Page<Product> products = this.productService.getAllProducts(pageable);
         List<Product> list = products.getContent();
         model.addAttribute("products", list);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", products.getTotalPages());
         return "admin/product/show";
     }
 
@@ -107,5 +115,22 @@ public class ProductController {
     public String deleteProduct(@ModelAttribute Product product) {
         this.productService.deleteProductById(product.getId());
         return "redirect:/admin/product";
+    }
+
+    @GetMapping("/products")
+    public String getProducts(Model model, @RequestParam(name = "page", defaultValue = "1") String page_raw) {
+        int page = 1;
+        try {
+            page = Integer.parseInt(page_raw);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        Pageable pageable = PageRequest.of(page - 1, 5);
+        Page<Product> products = this.productService.getAllProducts(pageable);
+        List<Product> list = products.getContent();
+        model.addAttribute("products", list);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", products.getTotalPages());
+        return "client/product/show";
     }
 }
