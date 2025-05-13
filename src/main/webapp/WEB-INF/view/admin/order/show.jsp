@@ -29,6 +29,34 @@
                                 <li class="breadcrumb-item active">Orders</li>
                             </ol>
                             <div>Table orders</div>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Total Price</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="order" items="${orders}">
+                                        <tr>
+                                            <td>${order.id}</td>
+                                            <td>${order.totalPrice}</td>
+                                            <td>${sessionScope.fullName}</td>
+                                            <td>${order.status}</td>
+                                            <td>
+                                                <a href="/admin/order/${order.id}" class="btn btn-success">view</a>
+                                                <a href="/admin/order/update/${order.id}"
+                                                    class="btn btn-warning mx-2">update</a>
+                                                <a href="/admin/order/delete/${order.id}"
+                                                    class="btn btn-danger">delete</a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
                         </div>
                     </main>
                     <jsp:include page="../layout/footer.jsp" />
