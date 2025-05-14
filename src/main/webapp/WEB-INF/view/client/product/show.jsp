@@ -83,7 +83,7 @@
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-5"
                                                         value="LG">
-                                                    <label class="form-check-label" for="factory-5">LG</label>
+                                                    <label class="form-check-label" for="factory-5">HP</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-6"
@@ -170,7 +170,7 @@
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" id="sort-3"
+                                                    <input class="form-check-input" type="radio" id="sort-3" checked
                                                         value="gia-nothing" name="radio-sort">
                                                     <label class="form-check-label" for="sort-3">Không sắp xếp</label>
                                                 </div>

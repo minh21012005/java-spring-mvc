@@ -116,10 +116,6 @@
                                                             <form:option value="DELL">Dell</form:option>
                                                             <form:option value="HP">HP</form:option>
                                                             <form:option value="ACER">Acer</form:option>
-                                                            <form:option value="MSI">MSI</form:option>
-                                                            <form:option value="SURFACE">Surface</form:option>
-                                                            <form:option value="GIGABYTE">Gigabyte</form:option>
-                                                            <form:option value="HUAWEI">Huawei</form:option>
                                                         </form:select>
                                                     </div>
                                                     <div class="col-md-6 col-12">
@@ -128,13 +124,13 @@
                                                             aria-label="Default select example" id="target"
                                                             path="target">
                                                             <form:option value="GAMING">Gaming</form:option>
-                                                            <form:option value="SINH VIEN - VAN PHONG">Sinh viên - Văn
+                                                            <form:option value="SINHVIEN-VANPHONG">Sinh viên - Văn
                                                                 phòng
                                                             </form:option>
-                                                            <form:option value="THIET KE DO HOA">Thiết kế đồ họa
+                                                            <form:option value="THIET-KE-DO-HOA">Thiết kế đồ họa
                                                             </form:option>
-                                                            <form:option value="MONG NHE">Mỏng nhẹ</form:option>
-                                                            <form:option value="DOANH NHAN">Doanh nhân</form:option>
+                                                            <form:option value="MONG-NHE">Mỏng nhẹ</form:option>
+                                                            <form:option value="DOANH-NHAN">Doanh nhân</form:option>
                                                         </form:select>
                                                     </div>
                                                 </div>
