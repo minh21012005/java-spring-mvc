@@ -161,19 +161,23 @@ public class ItemController {
     }
 
     @GetMapping("/products")
-    public String getProducts(Model model, @RequestParam(name = "page", defaultValue = "1") String page_raw,
-            @RequestParam("name") Optional<String> nameOptional) {
-        int page = 1;
-        try {
-            page = Integer.parseInt(page_raw);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
+    public String getProducts(Model model, @RequestParam(name = "page") Optional<String> page_raw,
+            @RequestParam("name") Optional<String> nameOptional,
+            @RequestParam("range1") Optional<String> range1_raw,
+            @RequestParam("range2") Optional<String> range2_raw,
+            @RequestParam("range3") Optional<String> range3_raw) {
+
+        int page = page_raw.isPresent() ? Integer.parseInt(page_raw.get()) : 1;
 
         String name = nameOptional.isPresent() ? nameOptional.get() : "";
+        String range_1 = range1_raw.isPresent() ? range1_raw.get() : "";
+        String range_2 = range2_raw.isPresent() ? range2_raw.get() : "";
+        String range_3 = range3_raw.isPresent() ? range3_raw.get() : "";
 
         Pageable pageable = PageRequest.of(page - 1, 60);
-        Page<Product> products = this.productService.getAllProducts(pageable, name);
+        Page<Product> products = this.productService.getProductsMultiPrice(pageable,
+                range_1, range_2, range_3);
+        // Page<Product> products = this.productService.getAllProducts(pageable, name);
         List<Product> list = products.getContent();
         model.addAttribute("products", list);
         model.addAttribute("currentPage", page);

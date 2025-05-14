@@ -42,6 +42,10 @@ public class ProductService {
         return this.productRepository.findAll(ProductSpecs.nameLike(name), pageable);
     }
 
+    public Page<Product> getProductsMultiPrice(Pageable pageable, String range1, String range2, String range3) {
+        return this.productRepository.findAll(ProductSpecs.matchMultiPrice(range1, range2, range3), pageable);
+    }
+
     public Page<Product> getAllProducts(Pageable pageable) {
         return this.productRepository.findAll(pageable);
     }
