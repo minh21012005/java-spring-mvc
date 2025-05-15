@@ -2,8 +2,6 @@ package vn.hoidanit.laptopshop.controller.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -179,14 +177,14 @@ public class ItemController {
         if (productCriteriaDTO.getSort() != null) {
             String sort = productCriteriaDTO.getSort().get();
             if (sort.equals("gia-tang-dan")) {
-                pageable = PageRequest.of(page - 1, 3, Sort.by(Product_.PRICE).ascending());
+                pageable = PageRequest.of(page - 1, 12, Sort.by(Product_.PRICE).ascending());
             } else if (sort.equals("gia-giam-dan")) {
-                pageable = PageRequest.of(page - 1, 3, Sort.by(Product_.PRICE).descending());
+                pageable = PageRequest.of(page - 1, 12, Sort.by(Product_.PRICE).descending());
             } else {
-                pageable = PageRequest.of(page - 1, 3);
+                pageable = PageRequest.of(page - 1, 12);
             }
         } else {
-            pageable = PageRequest.of(page - 1, 3);
+            pageable = PageRequest.of(page - 1, 12);
         }
 
         Page<Product> products = this.productService.getAllProducts(pageable, productCriteriaDTO);
