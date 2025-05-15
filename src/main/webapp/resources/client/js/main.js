@@ -210,6 +210,84 @@
         return formatter.format(value);
     }
 
+    //handle filter products
+    $('#btnFilter').click(function (event) {
+        event.preventDefault();
+        let factoryArr = [];
+        let targetArr = [];
+        let priceArr = [];
+        //factory filter
+        $("#factoryFilter .form-check-input:checked").each(function () {
+            factoryArr.push($(this).val());
+        });
+
+        //target filter
+        $("#targetFilter .form-check-input:checked").each(function () {
+            targetArr.push($(this).val());
+        });
+
+        //price filter
+        $("#priceFilter .form-check-input:checked").each(function () {
+            priceArr.push($(this).val());
+        });
+
+        //sort order
+        let sortValue = $('input[name="radio-sort"]:checked').val();
+
+        const currentUrl = new URL(window.location.href);
+        const searchParams = currentUrl.searchParams;
+
+        // Add or update query parameters
+        searchParams.set('page', '1');
+        searchParams.set('sort', sortValue);
+
+        if (factoryArr.length > 0) {
+            searchParams.set('factory', factoryArr.join(','));
+        }
+        if (targetArr.length > 0) {
+            searchParams.set('target', targetArr.join(','));
+        }
+        if (priceArr.length > 0) {
+            searchParams.set('price', priceArr.join(','));
+        }
+        //Update the URL and Reload the page
+        window.location.href = currentUrl.toString();
+    });
+
+    $(document).ready(function () {
+        const params = new URLSearchParams(window.location.search);
+
+        // 1. Tự động check các hãng sản xuất
+        if (params.has('factory')) {
+            const factories = params.get('factory').split(',');
+            factories.forEach(val => {
+                $(`#factoryFilter .form-check-input[value="${val}"]`).prop('checked', true);
+            });
+        }
+
+        // 2. Tự động check các mục đích sử dụng
+        if (params.has('target')) {
+            const targets = params.get('target').split(',');
+            targets.forEach(val => {
+                $(`#targetFilter .form-check-input[value="${val}"]`).prop('checked', true);
+            });
+        }
+
+        // 3. Tự động check các mức giá
+        if (params.has('price')) {
+            const prices = params.get('price').split(',');
+            prices.forEach(val => {
+                $(`#priceFilter .form-check-input[value="${val}"]`).prop('checked', true);
+            });
+        }
+
+        // 4. Tự động chọn radio sắp xếp
+        if (params.has('sort')) {
+            const sortVal = params.get('sort');
+            $(`input[name="radio-sort"][value="${sortVal}"]`).prop('checked', true);
+        }
+    });
+
 
 })(jQuery);
 

@@ -56,7 +56,7 @@
                                 <div class="row g-4 fruite">
                                     <div class="col-12 col-md-4">
                                         <div class="row g-4">
-                                            <div class="col-12">
+                                            <div class="col-12" id="factoryFilter">
                                                 <div class="mb-2"><b>Hãng sản xuất</b></div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-1"
@@ -92,7 +92,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-12">
+                                            <div class="col-12" id="targetFilter">
                                                 <div class="mb-2"><b>Mục đích sử dụng</b></div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="target-1"
@@ -125,33 +125,33 @@
 
 
                                             </div>
-                                            <div class="col-12">
+                                            <div class="col-12" id="priceFilter">
                                                 <div class="mb-2"><b>Mức giá</b></div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="price-2"
-                                                        value="duoi-10-trieu">
-                                                    <label class="form-check-label" for="price-2">Dưới 10 triệu</label>
+                                                        value="duoi-1000-do">
+                                                    <label class="form-check-label" for="price-2">Dưới 1000$</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="price-3"
-                                                        value="10-15-trieu">
-                                                    <label class="form-check-label" for="price-3">Từ 10 - 15
-                                                        triệu</label>
+                                                        value="1000-1500-do">
+                                                    <label class="form-check-label" for="price-3">Từ 1000 đến
+                                                        1500$</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="price-4"
-                                                        value="15-20-trieu">
-                                                    <label class="form-check-label" for="price-4">Từ 15 - 20
-                                                        triệu</label>
+                                                        value="1500-2000-do">
+                                                    <label class="form-check-label" for="price-4">Từ 1500 đến
+                                                        2000$</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="price-5"
-                                                        value="tren-20-triệu">
-                                                    <label class="form-check-label" for="price-5">Trên 20 triệu</label>
+                                                        value="tren-2000-do">
+                                                    <label class="form-check-label" for="price-5">Trên 2000$</label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -177,7 +177,7 @@
 
                                             </div>
                                             <div class="col-12">
-                                                <button
+                                                <button id="btnFilter"
                                                     class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4">
                                                     Lọc Sản Phẩm
                                                 </button>
@@ -186,6 +186,11 @@
                                     </div>
                                     <div class="col-12 col-md-8 text-center">
                                         <div class="row g-4">
+                                            <c:if test="${size eq 0}">
+                                                <div style="margin-top: 20%;">
+                                                    Không có sản phẩm nào được tìm thấy!
+                                                </div>
+                                            </c:if>
                                             <c:forEach var="product" items="${products}">
                                                 <div class="col-md-6 col-lg-4">
                                                     <div class="rounded position-relative fruite-item">
@@ -230,29 +235,30 @@
                                                     </div>
                                                 </div>
                                             </c:forEach>
-
-                                            <div class="pagination d-flex justify-content-center mt-5">
-                                                <li class="page-item ${currentPage eq 1? 'disabled':''}">
-                                                    <a class="page-link " href="/products?page=${currentPage - 1}"
-                                                        aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </a>
-                                                </li>
-                                                <c:forEach begin="1" end="${totalPage}" varStatus="loop">
-                                                    <li class="page-item">
-                                                        <a class="${loop.index eq currentPage ? 'active page-link' : 'page-link'}"
-                                                            href="/products?page=${loop.index}">
-                                                            ${loop.index}
+                                            <c:if test="${size ne 0}">
+                                                <div class="pagination d-flex justify-content-center mt-5">
+                                                    <li class="page-item ${currentPage eq 1? 'disabled':''}">
+                                                        <a class="page-link " href="/products?page=${currentPage - 1}"
+                                                            aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
                                                         </a>
                                                     </li>
-                                                </c:forEach>
-                                                <li class="page-item ${currentPage eq totalPage? 'disabled':''}">
-                                                    <a class="page-link " href="/products?page=${currentPage + 1}"
-                                                        aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                    </a>
-                                                </li>
-                                            </div>
+                                                    <c:forEach begin="1" end="${totalPage}" varStatus="loop">
+                                                        <li class="page-item">
+                                                            <a class="${loop.index eq currentPage ? 'active page-link' : 'page-link'}"
+                                                                href="/products?page=${loop.index}">
+                                                                ${loop.index}
+                                                            </a>
+                                                        </li>
+                                                    </c:forEach>
+                                                    <li class="page-item ${currentPage eq totalPage? 'disabled':''}">
+                                                        <a class="page-link " href="/products?page=${currentPage + 1}"
+                                                            aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

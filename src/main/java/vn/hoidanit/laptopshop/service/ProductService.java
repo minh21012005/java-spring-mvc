@@ -3,14 +3,19 @@ package vn.hoidanit.laptopshop.service;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import jakarta.persistence.criteria.Predicate;
 import jakarta.servlet.http.HttpSession;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.Product_;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.hoidanit.laptopshop.repository.CartDetailRepository;
 import vn.hoidanit.laptopshop.repository.CartRepository;
 import vn.hoidanit.laptopshop.repository.OrderDetailRepository;
@@ -38,8 +43,60 @@ public class ProductService {
         this.orderDetailRepository = orderDetailRepository;
     }
 
-    public Page<Product> getAllProducts(Pageable pageable, String name) {
-        return this.productRepository.findAll(ProductSpecs.nameLike(name), pageable);
+    public Page<Product> getAllProducts(Pageable pageable, ProductCriteriaDTO productCriteriaDTO) {
+        Specification<Product> combinedSpec = Specification.where(null);
+        if (productCriteriaDTO.getTarget() != null) {
+            Specification<Product> currentSpec = ProductSpecs.matchListTarget(productCriteriaDTO.getTarget().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+        if (productCriteriaDTO.getFactory() != null) {
+            Specification<Product> currentSpec = ProductSpecs.matchListFactory(productCriteriaDTO.getFactory().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+        if (productCriteriaDTO.getPrice() != null) {
+            Specification<Product> currentSpec = this.buildPriceSpecification(productCriteriaDTO.getPrice().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+        return this.productRepository.findAll(combinedSpec, pageable);
+    }
+
+    public Specification<Product> buildPriceSpecification(List<String> price) {
+        return (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.disjunction();
+            int count = 0;
+            for (String p : price) {
+                if (p.equals("duoi-1000-do")) {
+                    double min = 0;
+                    double max = 1000;
+                    predicate = criteriaBuilder.or(predicate,
+                            criteriaBuilder.between(root.get(Product_.PRICE), min, max));
+                    count++;
+                }
+                if (p.equals("1000-1500-do")) {
+                    double min = 1000;
+                    double max = 1500;
+                    predicate = criteriaBuilder.or(predicate,
+                            criteriaBuilder.between(root.get(Product_.PRICE), min, max));
+                    count++;
+                }
+                if (p.equals("1500-2000-do")) {
+                    double min = 1500;
+                    double max = 2000;
+                    predicate = criteriaBuilder.or(predicate,
+                            criteriaBuilder.between(root.get(Product_.PRICE), min, max));
+                    count++;
+                }
+                if (p.equals("tren-2000-do")) {
+                    double min = 2000;
+                    predicate = criteriaBuilder.ge(root.get(Product_.PRICE), min);
+                    count++;
+                }
+            }
+            if (count == 0) {
+                return null;
+            }
+            return predicate;
+        };
     }
 
     public Page<Product> getProductsMultiPrice(Pageable pageable, String range1, String range2, String range3) {
