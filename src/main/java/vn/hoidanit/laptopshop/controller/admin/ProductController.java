@@ -37,7 +37,6 @@ public class ProductController {
         try {
             page = Integer.parseInt(page_raw);
         } catch (Exception e) {
-            // TODO: handle exception
         }
         Pageable pageable = PageRequest.of(page - 1, 10);
         Page<Product> products = this.productService.getAllProducts(pageable);

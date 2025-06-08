@@ -66,6 +66,7 @@ public class SecurityConfiguration {
                         .permitAll()
 
                         .requestMatchers("/", "/login", "/register", "/client/**", "/css/**", "/js/**", "/product/**",
+                                "/products/**",
                                 "/images/**")
                         .permitAll()
 
